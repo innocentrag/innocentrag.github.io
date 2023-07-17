@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EXOTOOL - IP Tools</title>
+  <link rel="icon" href="images/EXOTOOL logo.png" type="image/x-icon">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    #header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 48px;
+      margin: 0;
+    }
+    
+    #logo {
+      text-align: center;
+      margin-bottom: 20px;
+      pointer-events: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+    }
+    
+    #content {
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    #ip-input {
+      height: 40px;
+      width: 300px;
+      margin-bottom: 10px;
+      padding: 0 10px;
+      font-size: 18px;
+    }
+    
+    #lookup-btn {
+      height: 40px;
+      width: 300px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #f49c00;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, scale 0.2s 0.1s;
+    }
+    
+    #lookup-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    #result-box {
+      background-color: #333333;
+      padding: 20px;
+      width: 600px;
+      display: none;
+      margin-top: 20px;
+      border-radius: 10px;
+      position: relative;
+    }
+    
+    #ip-result {
+      font-size: 18px;
+      color: white;
+      text-align: left;
+    }
+    
+    #copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 14px;
+      background-color: #f49c00;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    #home-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #1f1f1f;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      position: fixed;
+      bottom: 20px;
+      transition: transform 0.2s, scale 0.2s 0.1s;
+    }
+    
+    #home-btn:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="logo">
+    <img src="images/EXOTOOL logo.png" alt="Logo" width="200" height="200">
+  </div>
+  
+  <div id="header">
+    <h1>IP Tools</h1>
+  </div>
+  
+  <div id="content">
+    <input type="text" id="ip-input" placeholder="Enter IP Address">
+    <br>
+    <button id="lookup-btn">Lookup</button>
+    
+    <div id="result-box">
+      <button id="copy-btn">Copy</button>
+      <div id="ip-result"></div>
+    </div>
+  </div>
+  
+  <button id="home-btn" onclick="goToHome()">Back to Home</button>
+  
+  <script>
+    const lookupBtn = document.getElementById('lookup-btn');
+    const resultBox = document.getElementById('result-box');
+    const ipResultDiv = document.getElementById('ip-result');
+    const copyBtn = document.getElementById('copy-btn');
+    
+    lookupBtn.addEventListener('click', () => {
+      const ipInput = document.getElementById('ip-input').value;
+      
+      // Make the API request
+      fetch(`https://ipinfo.io/${ipInput}/json?token=f95486fd3b0c5a`)
+        .then(response => response.json())
+        .then(data => {
+          let result = '';
+          for (const [key, value] of Object.entries(data)) {
+            result += `<strong>${key}:</strong> ${value}<br>`;
+          }
+          ipResultDiv.innerHTML = result;
+          resultBox.style.display = 'block';
+        })
+        .catch(error => {
+          ipResultDiv.innerHTML = 'An error occurred. Please try again later.';
+          console.error(error);
+        });
+    });
+    
+    copyBtn.addEventListener('click', () => {
+      const ipResult = ipResultDiv.innerText;
+      navigator.clipboard.writeText(ipResult)
+        .then(() => {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = 'Copy';
+          }, 2000);
+        })
+        .catch(error => {
+          console.error('Copy failed:', error);
+        });
+    });
+    
+    function goToHome() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

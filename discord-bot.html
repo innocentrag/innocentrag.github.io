@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EXOTOOL - Discord Bot</title>
+  <link rel="icon" href="images/EXOTOOL logo.png" type="image/x-icon">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    
+    #header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 48px;
+      margin: 0;
+    }
+    
+    #logo {
+      text-align: center;
+      margin-bottom: 20px;
+      pointer-events: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+    }
+    
+    #content {
+      text-align: center;
+      margin-top: 30px;
+      padding-bottom: 100px;
+    }
+    
+    #help-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    #help-section h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    
+    #help-section p {
+      font-size: 18px;
+    }
+    
+    #invite-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #f49c00;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, scale 0.2s 0.1s;
+    }
+    
+    #invite-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    #back-to-home {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #1f1f1f;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 9999;
+      transition: transform 0.2s;
+    }
+    
+    #back-to-home:hover {
+      transform: translateX(-50%) scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="logo">
+    <img src="images/EXOTOOL logo.png" alt="Logo" width="200" height="200">
+  </div>
+  
+  <div id="header">
+    <h1>EXOBOT (COMING SOON!!!)</h1>
+  </div>
+  
+  <div id="content">
+    <button id="invite-btn">Add to Server</button>
+    
+  </div>
+  
+  <button id="back-to-home" onclick="goToHome()">Back to Home</button>
+  
+  <script>
+    const inviteBtn = document.getElementById('invite-btn');
+    
+    inviteBtn.addEventListener('click', () => {
+      // Perform the invite logic here
+      // Replace the placeholder URL with the actual invite URL
+      window.location.href = 'https://discord.com/invite/your-invite-url';
+    });
+    
+    function goToHome() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

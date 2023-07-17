@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EXOTOOL</title>
+  <link rel="icon" href="images/EXOTOOL logo.png" type="image/x-icon">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    
+    #header {
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 48px; /* Increased font size */
+      margin-bottom: 20px; /* Added margin at the bottom */
+    }
+    
+    #logo {
+      text-align: center;
+      margin-bottom: 20px;
+      pointer-events: none; /* Disable pointer events on the logo */
+      user-select: none; /* Disable text selection on the logo */
+      -webkit-touch-callout: none; /* Disable long press actions on the logo (iOS) */
+      -webkit-user-select: none; /* Disable text selection on the logo (iOS) */
+
+    }
+    
+    #buttons {
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .button {
+      display: inline-block;
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 18px;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none; /* Remove underline */
+    }
+    
+    #ip-tools,
+    #discord-bot {
+      width: 180px;
+      background-color: #f49c00;
+    }
+    
+    #download {
+      width: 445px; /* Adjusted width */
+      background-color: #f49c00;
+    }
+    
+    #videos {
+      width: 445px; /* Same width as download button */
+      background-color: #1f1f1f;
+    }
+
+    #about-us,
+    #support {
+      width: 180px;
+      background-color: #1f1f1f;
+    }
+    
+    .button:hover {
+      transition: transform 0.2s, scale 0.2s 0.1s;
+      transform: scale(1.1);
+    }
+    
+    .page-text {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="logo">
+    <img src="images/EXOTOOL logo.png" alt="Logo" width="200" height="200">
+  </div>
+  
+  <div id="header">
+    <h1>EXOTOOL</h1>
+  </div>
+  
+  <div id="buttons">
+    <a class="button" id="download" href="#" download>Download (Coming Soon)</a>
+    <br><br>
+    <a class="button" id="ip-tools" href="ip-tools.html">IP Tools</a>
+    <a class="button" id="discord-bot" href="discord-bot.html">Discord Bot</a>
+    <br><br>
+    <a class="button" id="about-us" href="about-us.html">About Us</a>
+    <a class="button" id="support" href="support.html">Support</a>
+    <br><br>
+    <a class="button" id="videos" href="videos.html">Videos</a>
+  </div>
+</body>
+</html>
