@@ -33,11 +33,14 @@
     #buttons {
       text-align: center;
       margin-top: 30px;
+      display: flex; /* Use Flexbox for a responsive layout */
+      flex-wrap: wrap; /* Allow buttons to wrap to new lines on small screens */
+      justify-content: center; /* Center align buttons horizontally */
     }
     
     .button {
-      display: block;
-      margin: 10px auto;
+      display: inline-block;
+      margin: 10px;
       padding: 15px 30px;
       font-size: 18px;
       color: white;
@@ -45,7 +48,6 @@
       border-radius: 20px;
       cursor: pointer;
       text-decoration: none; /* Remove underline */
-      width: 180px; /* Added width for better mobile layout */
     }
     
     #download {
