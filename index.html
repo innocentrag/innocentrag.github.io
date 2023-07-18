@@ -3,6 +3,7 @@
 <head>
   <title>EXOTOOL</title>
   <link rel="icon" href="images/EXOTOOL logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       background-color: black;
@@ -35,8 +36,8 @@
     }
     
     .button {
-      display: inline-block;
-      margin: 10px;
+      display: block;
+      margin: 10px auto;
       padding: 15px 30px;
       font-size: 18px;
       color: white;
@@ -44,27 +45,19 @@
       border-radius: 20px;
       cursor: pointer;
       text-decoration: none; /* Remove underline */
-    }
-    
-    #ip-tools,
-    #discord-bot {
-      width: 180px;
-      background-color: #f49c00;
+      width: 180px; /* Added width for better mobile layout */
     }
     
     #download {
-      width: 445px; /* Adjusted width */
       background-color: #f49c00;
     }
     
     #videos {
-      width: 445px; /* Same width as download button */
       background-color: #1f1f1f;
     }
 
     #about-us,
     #support {
-      width: 180px;
       background-color: #1f1f1f;
     }
     
@@ -77,6 +70,17 @@
       text-align: center;
       margin-top: 50px;
       font-size: 24px;
+    }
+
+    /* Media query for screens smaller than 600px (mobile devices) */
+    @media only screen and (max-width: 600px) {
+      h1 {
+        font-size: 36px; /* Adjusted font size for smaller screens */
+      }
+
+      .button {
+        width: 100%; /* Make buttons full-width on smaller screens */
+      }
     }
   </style>
 </head>
@@ -91,14 +95,11 @@
   
   <div id="buttons">
     <a class="button" id="download" href="#" download>Download (Coming Soon)</a>
-    <br><br>
-    <a class="button" id="ip-tools" href="ip-tools">IP Tools</a>
-    <a class="button" id="discord-bot" href="discord-bot">Discord Bot</a>
-    <br><br>
-    <a class="button" id="about-us" href="about-us">About Us</a>
-    <a class="button" id="support" href="support">Support</a>
-    <br><br>
-    <a class="button" id="videos" href="videos">Videos</a>
+    <a class="button" id="ip-tools" href="ip-tools.html">IP Tools</a>
+    <a class="button" id="discord-bot" href="discord-bot.html">Discord Bot</a>
+    <a class="button" id="about-us" href="about-us.html">About Us</a>
+    <a class="button" id="support" href="support.html">Support</a>
+    <a class="button" id="videos" href="videos.html">Videos</a>
   </div>
 </body>
 </html>
