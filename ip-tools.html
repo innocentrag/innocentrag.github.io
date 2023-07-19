@@ -41,12 +41,33 @@
       margin-top: 30px;
     }
     
+    #ip-input-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      margin-bottom: 10px;
+    }
+    
     #ip-input {
       height: 40px;
       width: 300px;
-      margin-bottom: 10px;
+      margin-right: 10px;
       padding: 0 10px;
       font-size: 18px;
+      position: relative;
+    }
+    
+    /* Styling for "Show My IP" button inside the input textbox */
+    #show-ip-btn {
+      height: 40px;
+      padding: 5px 8px;
+      font-size: 14px;
+      background-color: #f49c00;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
     }
     
     #lookup-btn {
@@ -125,7 +146,10 @@
   </div>
   
   <div id="content">
-    <input type="text" id="ip-input" placeholder="Enter IP Address">
+    <div id="ip-input-container">
+      <input type="text" id="ip-input" placeholder="Enter IP Address">
+      <button id="show-ip-btn">My IP</button>
+    </div>
     <br>
     <button id="lookup-btn">Lookup</button>
     
@@ -142,12 +166,14 @@
     const resultBox = document.getElementById('result-box');
     const ipResultDiv = document.getElementById('ip-result');
     const copyBtn = document.getElementById('copy-btn');
+    const showIpBtn = document.getElementById('show-ip-btn');
+    const ipInput = document.getElementById('ip-input');
     
     lookupBtn.addEventListener('click', () => {
-      const ipInput = document.getElementById('ip-input').value;
+      const ipInputValue = ipInput.value;
       
       // Make the API request
-      fetch(`https://ipinfo.io/${ipInput}/json?token=f95486fd3b0c5a`)
+      fetch(`https://ipinfo.io/${ipInputValue}/json?token=f95486fd3b0c5a`)
         .then(response => response.json())
         .then(data => {
           let result = '';
@@ -174,6 +200,19 @@
         })
         .catch(error => {
           console.error('Copy failed:', error);
+        });
+    });
+    
+    showIpBtn.addEventListener('click', () => {
+      // Make the API request to get user's IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          const userIp = data.ip;
+          ipInput.value = userIp; // Insert user's IP into the input textbox
+        })
+        .catch(error => {
+          console.error('An error occurred while fetching user IP:', error);
         });
     });
     
