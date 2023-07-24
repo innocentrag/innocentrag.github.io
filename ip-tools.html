@@ -11,12 +11,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      width: 80%; /* Set screen size to 80% */
-      margin: 0 auto; /* Center horizontally */
+      width: 80%;
+      margin: 0 auto;
     }
-    
+
     #header {
       text-align: center;
       margin-bottom: 20px;
@@ -29,6 +27,7 @@
     
     #logo {
       text-align: center;
+      margin-top: 20px;
       margin-bottom: 20px;
       pointer-events: none;
       user-select: none;
@@ -71,9 +70,9 @@
       cursor: pointer;
     }
     
-    #lookup-btn {
+    #lookup-btn, #blacklist-btn {
       height: 40px;
-      width: 380px;
+      width: 300px;
       padding: 10px 20px;
       font-size: 18px;
       background-color: #f49c00;
@@ -81,10 +80,12 @@
       border: none;
       border-radius: 20px;
       cursor: pointer;
+      margin-top: 10px;
+      margin-right: 10px;
       transition: transform 0.2s, scale 0.2s 0.1s;
     }
     
-    #lookup-btn:hover {
+    #lookup-btn:hover, #blacklist-btn:hover {
       transform: scale(1.1);
     }
     
@@ -94,6 +95,7 @@
       width: 600px;
       display: none;
       margin-top: 20px;
+      margin-bottom: 20px;
       border-radius: 10px;
       position: relative;
     }
@@ -135,17 +137,24 @@
     #home-btn:hover {
       transform: scale(1.1);
     }
+
+    /* Additional styles for the map */
+    #map {
+      height: 300px;
+      width: 100%;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div id="logo">
     <img src="images/EXOTOOL logo.png" alt="Logo" width="200" height="200">
   </div>
-  
+
   <div id="header">
     <h1>IP Tools</h1>
   </div>
-  
+
   <div id="content">
     <div id="ip-input-container">
       <input type="text" id="ip-input" placeholder="Enter IP Address">
@@ -153,15 +162,18 @@
     </div>
     <br>
     <button id="lookup-btn">Lookup</button>
-    
+
+    <!-- History of searches -->
     <div id="result-box">
       <button id="copy-btn">Copy</button>
       <div id="ip-result"></div>
+      <!-- Additional map container -->
+      <div id="map"></div>
     </div>
   </div>
-  
+
   <button id="home-btn" onclick="goToHome()">Back to Home</button>
-  
+
   <script>
     const lookupBtn = document.getElementById('lookup-btn');
     const resultBox = document.getElementById('result-box');
@@ -169,27 +181,40 @@
     const copyBtn = document.getElementById('copy-btn');
     const showIpBtn = document.getElementById('show-ip-btn');
     const ipInput = document.getElementById('ip-input');
-    
+
     lookupBtn.addEventListener('click', () => {
       const ipInputValue = ipInput.value;
-      
-      // Make the API request
-      fetch(`https://ipinfo.io/${ipInputValue}/json?token=f95486fd3b0c5a`)
+
+      // Make the API request using the geoiplookup.io API
+      fetch(`https://json.geoiplookup.io/${ipInputValue}`)
         .then(response => response.json())
         .then(data => {
           let result = '';
           for (const [key, value] of Object.entries(data)) {
-            result += `<strong>${key}:</strong> ${value}<br>`;
+            if (key !== "success" && key !== "premium") {
+              result += `<strong>${key}:</strong> ${value}<br>`;
+            }
           }
           ipResultDiv.innerHTML = result;
           resultBox.style.display = 'block';
+
+          // Get latitude and longitude for geolocation
+          const latitude = parseFloat(data.latitude);
+          const longitude = parseFloat(data.longitude);
+          initMap(latitude, longitude);
+
+          // Perform Privacy Check
+          performPrivacyCheck(ipInputValue);
+
+          // Scroll to the result box
+          resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
         })
         .catch(error => {
           ipResultDiv.innerHTML = 'An error occurred. Please try again later.';
           console.error(error);
         });
     });
-    
+
     copyBtn.addEventListener('click', () => {
       const ipResult = ipResultDiv.innerText;
       navigator.clipboard.writeText(ipResult)
@@ -203,7 +228,7 @@
           console.error('Copy failed:', error);
         });
     });
-    
+
     showIpBtn.addEventListener('click', () => {
       // Make the API request to get user's IP
       fetch('https://api.ipify.org?format=json')
@@ -216,10 +241,45 @@
           console.error('An error occurred while fetching user IP:', error);
         });
     });
-    
+
+    // Geolocation on Map
+    function initMap(latitude, longitude) {
+      const map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: latitude, lng: longitude },
+        zoom: 8,
+      });
+      const marker = new google.maps.Marker({
+        position: { lat: latitude, lng: longitude },
+        map: map,
+      });
+    }
+
+    // IP Address Validator
+    function isValidIPAddress(ip) {
+      const ipRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+      return ipRegex.test(ip);
+    }
+
+    // Privacy Protection Check using the geoiplookup.io API
+    function performPrivacyCheck(ip) {
+      fetch(`https://vpn.geoiplookup.io/${ip}`)
+        .then(response => response.json())
+        .then(data => {
+          const privacyInfo = data.proxy
+            ? 'This IP is using a Proxy or VPN.'
+            : 'This IP is not using a Proxy or VPN.';
+          ipResultDiv.innerHTML += `<p><strong>Privacy Protection:</strong> ${privacyInfo}</p>`;
+        })
+        .catch(error => {
+          console.error('An error occurred while checking privacy:', error);
+        });
+    }
+
     function goToHome() {
       window.location.href = 'index';
     }
   </script>
+  <!-- Include the Google Maps API script -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
